@@ -26,6 +26,7 @@ public class RedisConfig {
     @Value("${spring.redis.port}")
     private int redisPort;
 
+    // 여기를 참고로 원하는 키 형태로 변경해서 써도 무방
     @Bean
     public KeyGenerator keyGenerator() {
         return new KeyGenerator() {
