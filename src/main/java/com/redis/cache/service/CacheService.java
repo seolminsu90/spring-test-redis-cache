@@ -19,7 +19,7 @@ public class CacheService {
         return "Hello world :: " + normalKey;
     }
 
-    @Cacheable(value = "cacheName2", keyGenerator = "keyGenerator")
+    @Cacheable(value = "cacheName2", keyGenerator = "keyGeneratorV2")
     public String cacheableTest(Map<String, Object> params) {
         try {
             Thread.sleep(5000);

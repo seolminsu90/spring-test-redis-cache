@@ -25,11 +25,27 @@ public class RedisConfig {
     @Value("${spring.redis.port}")
     private int redisPort;
 
-    // 여기를 참고로 원하는 키 형태로 변경해서 써도 무방
-    // KeyGenerator 구현한 빈 : 캐싱 메소드파라미터 없을 땐 추가키 빈값, 있으면 나열해서 키로 만듬.
+    // Method Caching에 사용할 키 생성
+
+    // keyGenerator 예시 - 모든 파라미터를 사용하는 KeyGenerator
     @Bean
     public KeyGenerator keyGenerator() {
         return (target, method, params) -> (params.length == 0) ? "" : StringUtils.arrayToCommaDelimitedString(params);
+    }
+
+    // keyGeneratorV2 예시 - 2개 파라미터만 사용하는 KeyGenerator
+    @Bean
+    public KeyGenerator keyGeneratorV2() {
+        return (target, method, params) -> {
+            StringBuilder keyNameBilder = new StringBuilder();
+            for(int i = 0; i < params.length; i++) {
+                if(i < 2) {
+                    keyNameBilder.append(params.toString());
+                    break;
+                }
+            }
+            return "keyGeneratorV2_" + keyNameBilder.toString();
+        };
     }
 
     @Bean
