@@ -1,6 +1,5 @@
 package com.redis.cache.config;
 
-import java.lang.reflect.Method;
 import java.time.Duration;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -27,22 +26,10 @@ public class RedisConfig {
     private int redisPort;
 
     // 여기를 참고로 원하는 키 형태로 변경해서 써도 무방
+    // KeyGenerator 구현한 빈 : 캐싱 메소드파라미터 없을 땐 추가키 빈값, 있으면 나열해서 키로 만듬.
     @Bean
     public KeyGenerator keyGenerator() {
-        return new KeyGenerator() {
-            public Object generate(Object target, Method method, Object... params) {
-                if (params.length == 0) {
-                    return "";
-                }
-                if (params.length == 1) {
-                    Object param = params[0];
-                    if (param != null && !param.getClass().isArray()) {
-                        return param;
-                    }
-                }
-                return "[" + StringUtils.arrayToCommaDelimitedString(params) + "]";
-            }
-        };
+        return (target, method, params) -> (params.length == 0) ? "" : StringUtils.arrayToCommaDelimitedString(params);
     }
 
     @Bean

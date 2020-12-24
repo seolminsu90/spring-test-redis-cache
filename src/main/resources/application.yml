@@ -1,3 +1,4 @@
+server.port: 8866
 spring:
   redis:
     host: localhost
