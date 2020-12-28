@@ -40,7 +40,7 @@ public class RedisConfig {
             StringBuilder keyNameBilder = new StringBuilder();
             for(int i = 0; i < params.length; i++) {
                 if(i < 2) {
-                    keyNameBilder.append(params.toString());
+                    keyNameBilder.append(params[i].toString());
                     break;
                 }
             }
